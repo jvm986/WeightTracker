@@ -8,17 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		610582F428D2405A008414C7 /* WeightTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610582F328D2405A008414C7 /* WeightTrackerApp.swift */; };
-		610582F628D2405A008414C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610582F528D2405A008414C7 /* ContentView.swift */; };
-		610582F828D2405B008414C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610582F728D2405B008414C7 /* Assets.xcassets */; };
+		610582F628D2405A008414C7 /* WeightTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610582F528D2405A008414C7 /* WeightTrackerView.swift */; };
 		610582FB28D2405B008414C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610582FA28D2405B008414C7 /* Preview Assets.xcassets */; };
+		6105830328D24095008414C7 /* WeightEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6105830228D24095008414C7 /* WeightEntry.swift */; };
+		6125685228D4641F00D47348 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685128D4641F00D47348 /* Helpers.swift */; };
+		6125685428D4940B00D47348 /* EntryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685328D4940B00D47348 /* EntryStore.swift */; };
+		6125685628D494EE00D47348 /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685528D494EE00D47348 /* ErrorWrapper.swift */; };
+		6125685828D495B100D47348 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685728D495B100D47348 /* ErrorView.swift */; };
+		618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */; };
+		619FC4E228D49EAA00BACE35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 619FC4E128D49EAA00BACE35 /* Assets.xcassets */; };
+		61A665A328D2FA660092C9EF /* BleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A665A228D2FA660092C9EF /* BleProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		610582F028D2405A008414C7 /* WeightTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeightTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		610582F328D2405A008414C7 /* WeightTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightTrackerApp.swift; sourceTree = "<group>"; };
-		610582F528D2405A008414C7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		610582F728D2405B008414C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		610582F528D2405A008414C7 /* WeightTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightTrackerView.swift; sourceTree = "<group>"; };
 		610582FA28D2405B008414C7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6105830228D24095008414C7 /* WeightEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntry.swift; sourceTree = "<group>"; };
+		6125685128D4641F00D47348 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		6125685328D4940B00D47348 /* EntryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryStore.swift; sourceTree = "<group>"; };
+		6125685528D494EE00D47348 /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
+		6125685728D495B100D47348 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntryDetailView.swift; sourceTree = "<group>"; };
+		619FC4E128D49EAA00BACE35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		61A665A228D2FA660092C9EF /* BleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,8 +49,8 @@
 		610582E728D2405A008414C7 = {
 			isa = PBXGroup;
 			children = (
-				610582F228D2405A008414C7 /* WeightTracker */,
 				610582F128D2405A008414C7 /* Products */,
+				610582F228D2405A008414C7 /* WeightTracker */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,10 +65,14 @@
 		610582F228D2405A008414C7 /* WeightTracker */ = {
 			isa = PBXGroup;
 			children = (
-				610582F328D2405A008414C7 /* WeightTrackerApp.swift */,
-				610582F528D2405A008414C7 /* ContentView.swift */,
-				610582F728D2405B008414C7 /* Assets.xcassets */,
+				619FC4E128D49EAA00BACE35 /* Assets.xcassets */,
+				6125685728D495B100D47348 /* ErrorView.swift */,
+				6125685128D4641F00D47348 /* Helpers.swift */,
+				6105830128D24084008414C7 /* Models */,
 				610582F928D2405B008414C7 /* Preview Content */,
+				618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */,
+				610582F328D2405A008414C7 /* WeightTrackerApp.swift */,
+				610582F528D2405A008414C7 /* WeightTrackerView.swift */,
 			);
 			path = WeightTracker;
 			sourceTree = "<group>";
@@ -65,6 +83,17 @@
 				610582FA28D2405B008414C7 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6105830128D24084008414C7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6105830228D24095008414C7 /* WeightEntry.swift */,
+				61A665A228D2FA660092C9EF /* BleProvider.swift */,
+				6125685328D4940B00D47348 /* EntryStore.swift */,
+				6125685528D494EE00D47348 /* ErrorWrapper.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				610582FB28D2405B008414C7 /* Preview Assets.xcassets in Resources */,
-				610582F828D2405B008414C7 /* Assets.xcassets in Resources */,
+				619FC4E228D49EAA00BACE35 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +166,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				610582F628D2405A008414C7 /* ContentView.swift in Sources */,
+				6125685628D494EE00D47348 /* ErrorWrapper.swift in Sources */,
+				610582F628D2405A008414C7 /* WeightTrackerView.swift in Sources */,
+				6125685228D4641F00D47348 /* Helpers.swift in Sources */,
+				6105830328D24095008414C7 /* WeightEntry.swift in Sources */,
+				618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */,
+				61A665A328D2FA660092C9EF /* BleProvider.swift in Sources */,
+				6125685428D4940B00D47348 /* EntryStore.swift in Sources */,
+				6125685828D495B100D47348 /* ErrorView.swift in Sources */,
 				610582F428D2405A008414C7 /* WeightTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +306,8 @@
 				DEVELOPMENT_TEAM = VL2XXB42YM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is required to connect to scale.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is required to connect to scale.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +337,8 @@
 				DEVELOPMENT_TEAM = VL2XXB42YM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is required to connect to scale.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is required to connect to scale.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

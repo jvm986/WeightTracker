@@ -11,7 +11,7 @@ import CoreBluetooth
 struct WeightTrackerView: View {
     @Binding var entries: [WeightEntry]
     @Environment(\.scenePhase) private var scenePhase
-    @ObservedObject var bleProvider: BleProvider
+    @ObservedObject var scaleProvider: ScaleProvider
     let saveAction: ()->Void
     @State private var wasRecorded = false
     
@@ -36,6 +36,7 @@ struct WeightTrackerView: View {
             entries.append(WeightEntry(date: Date(), weight: weight))
         }
         saveAction()
+        scaleProvider.turnOffDisplay()
         wasRecorded = true
         Task {
             await delayText()
@@ -64,29 +65,31 @@ struct WeightTrackerView: View {
             Section(header: Text("Record Entry")) {
                 if wasRecorded {
                     Label("Entry Recorded!", systemImage: "checkmark")
-                } else if bleProvider.weightIsStable {
+                } else if scaleProvider.weightIsStable {
                     Button(action: {
-                        recordWeight(weight: bleProvider.weight)
+                        recordWeight(weight: scaleProvider.weight)
                     }) {
                         Label("Record weight", systemImage: "plus")
                     }
-                } else if bleProvider.isConnected {
+                    .buttonStyle(.borderless)
+                } else if scaleProvider.isConnected {
                     Label("Stabalizing...", systemImage: "waveform.path.ecg")
-                } else if bleProvider.isConnecting {
+                } else if scaleProvider.isConnecting {
                     Label("Connecting...", systemImage: "clock")
                 } else {
                     Button(action: {
-                        bleProvider.startScanning()
+                        scaleProvider.startScanning()
                     }) {
                         Label("Connect to scale", systemImage: "wifi.router")
                     }
+                    .buttonStyle(.borderless)
                 }
             }
             Section(header: Text("Entries")) {
                 if entries.isEmpty {
                     Label("No entries yet", systemImage: "calendar.badge.exclamationmark")
                 }
-                ForEach(entries) { entry in
+                ForEach(entries.reversed()) { entry in
                     NavigationLink(destination: WeightEntryDetailView(entry: entry)) {
                         HStack {
                             Label(entry.date.formatted(date: .long, time: .omitted), systemImage: "calendar")
@@ -97,7 +100,7 @@ struct WeightTrackerView: View {
         }
         .navigationTitle("Weight Tracker")
         .onChange(of: scenePhase) { phase in
-            if phase == .inactive { bleProvider.reset() }
+            if phase == .inactive { scaleProvider.reset() }
         }
     }
 }
@@ -105,7 +108,7 @@ struct WeightTrackerView: View {
 struct WeightEntries_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            WeightTrackerView(entries: .constant(WeightEntry.sampleData), bleProvider: BleProvider(),
+            WeightTrackerView(entries: .constant(WeightEntry.sampleData), scaleProvider: ScaleProvider(),
                               saveAction: {})
         }
     }

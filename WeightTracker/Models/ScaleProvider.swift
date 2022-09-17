@@ -9,18 +9,24 @@ import Foundation
 import CoreBluetooth
 
 // Codes for Mi Body Composition Scale 2
-let compositionService = "181B"
-let compositionCharacteristic = "2A9C"
+let compositionServiceUuid = "181B"
+let compositionCharacteristicUuid = "2A9C"
 
-let services: [CBUUID] = [CBUUID(string: compositionService)]
-let characteristics: [CBUUID] = [CBUUID(string: compositionCharacteristic)]
+let configServiceUuid = "00001530-0000-3512-2118-0009AF100700"
+let configCharacteristicUuid = "00001542-0000-3512-2118-0009AF100700"
+
+let services: [CBUUID] = [CBUUID(string: compositionServiceUuid), CBUUID(string: configServiceUuid)]
+let characteristics: [CBUUID] = [CBUUID(string: compositionCharacteristicUuid), CBUUID(string: configCharacteristicUuid)]
 
 
-class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+class ScaleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
-    var myCentral: CBCentralManager!
-    var myPeripheral: CBPeripheral!
-    var myCharacteristic: CBCharacteristic!
+    var central: CBCentralManager!
+    var scalePeripheral: CBPeripheral!
+    
+    var compositionCharacteristic: CBCharacteristic!
+    var configCharacteristic: CBCharacteristic!
+
     @Published var isSwitchedOn = false
     @Published var isConnecting = false
     @Published var isConnected = false
@@ -30,8 +36,8 @@ class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPerip
     
     override init() {
         super.init()
-        myCentral = CBCentralManager(delegate: self, queue: nil)
-        myCentral.delegate = self
+        central = CBCentralManager(delegate: self, queue: nil)
+        central.delegate = self
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -45,15 +51,15 @@ class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPerip
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         stopScanning()
-        myPeripheral = peripheral
-        myPeripheral.delegate = self
-        myCentral.connect(peripheral, options: nil)
+        scalePeripheral = peripheral
+        scalePeripheral.delegate = self
+        central.connect(peripheral, options: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         isConnected = true
         isConnecting = false
-        myPeripheral.discoverServices(services)
+        scalePeripheral.discoverServices(services)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -62,19 +68,22 @@ class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPerip
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for service in peripheral.services! {
-            myPeripheral.discoverCharacteristics(characteristics, for: service)
+            scalePeripheral.discoverCharacteristics(characteristics, for: service)
         }
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverIncludedServicesFor service: CBService, error: Error?) {
-        print(service)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic in service.characteristics! {
-            print(characteristic)
-            myPeripheral.setNotifyValue(true, for: characteristic)
-            myPeripheral.readValue(for: characteristic)
+            scalePeripheral.setNotifyValue(true, for: characteristic)
+            switch characteristic.uuid.uuidString {
+            case compositionCharacteristicUuid:
+                compositionCharacteristic = characteristic
+                scalePeripheral.readValue(for: compositionCharacteristic)
+            case configCharacteristicUuid:
+                configCharacteristic = characteristic
+            default:
+                continue
+            }
         }
     }
     
@@ -93,10 +102,6 @@ class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPerip
         }
     }
     
-    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        print(characteristic)
-    }
-    
     func reset() {
         isSwitchedOn = false
         isConnecting = false
@@ -107,11 +112,20 @@ class BleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPerip
     }
     
     func startScanning() {
-        isConnecting = true
-        myCentral.scanForPeripherals(withServices: services, options: nil)
+        if isSwitchedOn {
+            isConnecting = true
+            central.scanForPeripherals(withServices: services, options: nil)
+        }
     }
     
     func stopScanning() {
-        myCentral.stopScan()
+        central.stopScan()
+    }
+    
+    // Note: The device stops transmitting values when the display turns off
+    func turnOffDisplay() {
+        if let c = configCharacteristic {
+            scalePeripheral.writeValue(Data([UInt8]([4,3])), for: c, type: .withResponse)
+        }
     }
 }

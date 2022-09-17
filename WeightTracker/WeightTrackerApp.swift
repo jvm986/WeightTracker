@@ -10,13 +10,13 @@ import SwiftUI
 @main
 struct WeightTrackerApp: App {
     @StateObject private var store = EntryStore()
-    @ObservedObject var bleProvider = BleProvider()
+    @ObservedObject var scaleProvider = ScaleProvider()
     @State private var errorWrapper: ErrorWrapper?
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                WeightTrackerView(entries: $store.entries, bleProvider: bleProvider) {
+                WeightTrackerView(entries: $store.entries, scaleProvider: scaleProvider) {
                     Task {
                         do {
                             try await EntryStore.save(entries: store.entries)

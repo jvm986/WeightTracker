@@ -13,11 +13,11 @@
 		6105830328D24095008414C7 /* WeightEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6105830228D24095008414C7 /* WeightEntry.swift */; };
 		6125685228D4641F00D47348 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685128D4641F00D47348 /* Helpers.swift */; };
 		6125685428D4940B00D47348 /* EntryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685328D4940B00D47348 /* EntryStore.swift */; };
-		6125685628D494EE00D47348 /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685528D494EE00D47348 /* ErrorWrapper.swift */; };
 		6125685828D495B100D47348 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685728D495B100D47348 /* ErrorView.swift */; };
+		612B3B2628D5B58800C4964D /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612B3B2528D5B58800C4964D /* ErrorWrapper.swift */; };
 		618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */; };
 		619FC4E228D49EAA00BACE35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 619FC4E128D49EAA00BACE35 /* Assets.xcassets */; };
-		61A665A328D2FA660092C9EF /* BleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A665A228D2FA660092C9EF /* BleProvider.swift */; };
+		61A665A328D2FA660092C9EF /* ScaleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A665A228D2FA660092C9EF /* ScaleProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,11 +28,11 @@
 		6105830228D24095008414C7 /* WeightEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntry.swift; sourceTree = "<group>"; };
 		6125685128D4641F00D47348 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		6125685328D4940B00D47348 /* EntryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryStore.swift; sourceTree = "<group>"; };
-		6125685528D494EE00D47348 /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
 		6125685728D495B100D47348 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		612B3B2528D5B58800C4964D /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
 		618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntryDetailView.swift; sourceTree = "<group>"; };
 		619FC4E128D49EAA00BACE35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		61A665A228D2FA660092C9EF /* BleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleProvider.swift; sourceTree = "<group>"; };
+		61A665A228D2FA660092C9EF /* ScaleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,9 +89,9 @@
 			isa = PBXGroup;
 			children = (
 				6105830228D24095008414C7 /* WeightEntry.swift */,
-				61A665A228D2FA660092C9EF /* BleProvider.swift */,
+				61A665A228D2FA660092C9EF /* ScaleProvider.swift */,
 				6125685328D4940B00D47348 /* EntryStore.swift */,
-				6125685528D494EE00D47348 /* ErrorWrapper.swift */,
+				612B3B2528D5B58800C4964D /* ErrorWrapper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -166,12 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6125685628D494EE00D47348 /* ErrorWrapper.swift in Sources */,
 				610582F628D2405A008414C7 /* WeightTrackerView.swift in Sources */,
 				6125685228D4641F00D47348 /* Helpers.swift in Sources */,
 				6105830328D24095008414C7 /* WeightEntry.swift in Sources */,
+				612B3B2628D5B58800C4964D /* ErrorWrapper.swift in Sources */,
 				618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */,
-				61A665A328D2FA660092C9EF /* BleProvider.swift in Sources */,
+				61A665A328D2FA660092C9EF /* ScaleProvider.swift in Sources */,
 				6125685428D4940B00D47348 /* EntryStore.swift in Sources */,
 				6125685828D495B100D47348 /* ErrorView.swift in Sources */,
 				610582F428D2405A008414C7 /* WeightTrackerApp.swift in Sources */,

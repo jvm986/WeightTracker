@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct WeightEntryDetailView: View {
-    var entry: WeightEntry
+    var weightEntry: WeightEntry
     
     var body: some View {
-        VStack {
-            Text(entry.date, style: .date)
-                .font(.title2)
-            Text(entry.date, style: .time)
-                .font(.callout)
-            Text(String(format: "%.2f kg", entry.weight))
-                .font(.largeTitle)
-                .padding(.top)
-        }
+                List {
+                    Section(header: Text("Entries")) {
+                        ForEach(weightEntry.entries) {entry in
+                        HStack {
+                            Label(entry.date.formatted(date: .omitted, time: .shortened), systemImage: "clock")
+                            Spacer()
+                            Text(String(format: "%.2f kg", entry.weight))
+                        }
+                    }
+                }
+            }
+                .navigationTitle(weightEntry.date.formatted(date: .long, time: .omitted))
     }
 }
 
 struct WeightEntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        WeightEntryDetailView(entry: WeightEntry.sampleData[0])
+        WeightEntryDetailView(weightEntry: WeightEntry.sampleData[0])
     }
 }

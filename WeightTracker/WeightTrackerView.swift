@@ -18,34 +18,30 @@ struct WeightTrackerView: View {
     private var sevenDayAverage: Double {
         let after = Date(timeIntervalSinceNow: -(day * 7))
         let filteredEntries = entries.filter{ $0.date > after }
-        return filteredEntries.map{ $0.weight }.reduce(0, +) / Double(filteredEntries.count)
+        return filteredEntries.map{ $0.averageWeight }.reduce(0, +) / Double(filteredEntries.count)
     }
     
     private var sevenDayMin: Double {
         let after = Date(timeIntervalSinceNow: -(day * 7))
         let filteredEntries = entries.filter{ $0.date > after }
-        if let min = filteredEntries.map({ $0.weight }).min() { return min }
+        if let min = filteredEntries.map({ $0.averageWeight }).min() { return min }
         return 0
     }
     
     private func recordWeight(weight: Double) {
-        let newEntry = WeightEntry(date: Date(), weight: weight)
+        let newEntry = Entry(date: Date(), weight: weight)
         if let idx = entries.firstIndex(where: { $0.date.formatted(date: .abbreviated, time: .omitted) == Date().formatted(date: .abbreviated, time: .omitted) }) {
-            entries[idx] = newEntry
+            entries[idx].entries.append(newEntry)
         } else {
-            entries.append(WeightEntry(date: Date(), weight: weight))
+            entries.append(WeightEntry(date: Date(), entries: [newEntry]))
         }
         saveAction()
         scaleProvider.turnOffDisplay()
         wasRecorded = true
         Task {
-            await delayText()
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            wasRecorded = false
         }
-    }
-    
-    private func delayText() async {
-        try? await Task.sleep(nanoseconds: 1_500_000_000)
-        wasRecorded = false
     }
     
     var body: some View {
@@ -90,7 +86,7 @@ struct WeightTrackerView: View {
                     Label("No entries yet", systemImage: "calendar.badge.exclamationmark")
                 }
                 ForEach(entries.reversed()) { entry in
-                    NavigationLink(destination: WeightEntryDetailView(entry: entry)) {
+                    NavigationLink(destination: WeightEntryDetailView(weightEntry: entry)) {
                         HStack {
                             Label(entry.date.formatted(date: .long, time: .omitted), systemImage: "calendar")
                         }

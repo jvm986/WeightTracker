@@ -7,96 +7,73 @@
 
 import SwiftUI
 import CoreBluetooth
+import Charts
 
 struct WeightTrackerView: View {
-    @Binding var entries: [WeightEntry]
+    @Binding var dataStore: DataStore
     @Environment(\.scenePhase) private var scenePhase
-    @ObservedObject var scaleProvider: ScaleProvider
     let saveAction: ()->Void
-    @State private var wasRecorded = false
+    @State private var isPresentingEditView = false
     
-    private var sevenDayAverage: Double {
-        let after = Date(timeIntervalSinceNow: -(day * 7))
-        let filteredEntries = entries.filter{ $0.date > after }
-        return filteredEntries.map{ $0.averageWeight }.reduce(0, +) / Double(filteredEntries.count)
-    }
-    
-    private var sevenDayMin: Double {
-        let after = Date(timeIntervalSinceNow: -(day * 7))
-        let filteredEntries = entries.filter{ $0.date > after }
-        if let min = filteredEntries.map({ $0.averageWeight }).min() { return min }
-        return 0
-    }
-    
-    private func recordWeight(weight: Double) {
-        let newEntry = Entry(date: Date(), weight: weight)
-        if let idx = entries.firstIndex(where: { $0.date.formatted(date: .abbreviated, time: .omitted) == Date().formatted(date: .abbreviated, time: .omitted) }) {
-            entries[idx].entries.append(newEntry)
-        } else {
-            entries.append(WeightEntry(date: Date(), entries: [newEntry]))
-        }
+    func deleteDay(at offsets: IndexSet) {
+        dataStore.entries.remove(atOffsets: offsets)
         saveAction()
-        scaleProvider.turnOffDisplay()
-        wasRecorded = true
-        Task {
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
-            wasRecorded = false
+    }
+    
+    func getStrideCount(entries: [WeightEntry]) -> Int {
+        if entries.count < 5 {
+            return 1
         }
+        
+        return entries.count / 5
     }
     
     var body: some View {
         List {
             Section(header: Text("Weight Info")) {
-                HStack {
-                    Label("7 Day Average", systemImage: "chart.bar")
-                    Spacer()
-                    Text(String(format: "%.2f kg", sevenDayAverage))
-                }
-                HStack {
-                    Label("7 Day Minimum", systemImage: "arrowtriangle.down")
-                    Spacer()
-                    Text(String(format: "%.2f kg", sevenDayMin))
-                }
+                AverageView(dataStore: dataStore)
+            }
+            Section(header: Text("Trend")) {
+                TrendView(dataStore: dataStore)
+                    .frame(height: 100)
+                    .padding(.top)
             }
             Section(header: Text("Record Entry")) {
-                if wasRecorded {
-                    Label("Entry Recorded!", systemImage: "checkmark")
-                } else if scaleProvider.weightIsStable {
-                    Button(action: {
-                        recordWeight(weight: scaleProvider.weight)
-                    }) {
-                        Label("Record weight", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderless)
-                } else if scaleProvider.isConnected {
-                    Label("Stabalizing...", systemImage: "waveform.path.ecg")
-                } else if scaleProvider.isConnecting {
-                    Label("Connecting...", systemImage: "clock")
-                } else {
-                    Button(action: {
-                        scaleProvider.startScanning()
-                    }) {
-                        Label("Connect to scale", systemImage: "wifi.router")
-                    }
-                    .buttonStyle(.borderless)
-                }
+                WeightRecorderView(dataStore: $dataStore, saveAction: saveAction)
             }
             Section(header: Text("Entries")) {
-                if entries.isEmpty {
+                if dataStore.entries.isEmpty {
                     Label("No entries yet", systemImage: "calendar.badge.exclamationmark")
                 }
-                ForEach(entries.reversed()) { entry in
-                    NavigationLink(destination: WeightEntryDetailView(weightEntry: entry)) {
+                ForEach($dataStore.entries) { $entry in
+                    NavigationLink(destination: WeightEntryDetailView(dataStore: dataStore, weightEntry: $entry, saveAction: saveAction)) {
                         HStack {
                             Label(entry.date.formatted(date: .long, time: .omitted), systemImage: "calendar")
                         }
                     }
                 }
+                .onDelete(perform: deleteDay)
             }
         }
         .navigationTitle("Weight Tracker")
-        .onChange(of: scenePhase) { phase in
-            if phase == .inactive { scaleProvider.reset() }
+        .toolbar {
+            Button("User Data") {
+                isPresentingEditView = true
+            }
+        }
+        .sheet(isPresented: $isPresentingEditView) {
+            NavigationView {
+                UserDataEditView(dataStore: $dataStore, saveAction: saveAction)
+                    .navigationTitle("User Data")
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") {
+                                isPresentingEditView = false
+                                saveAction()
+                            }
+                        }
+                    }
+            }
         }
     }
 }
@@ -104,8 +81,7 @@ struct WeightTrackerView: View {
 struct WeightEntries_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            WeightTrackerView(entries: .constant(WeightEntry.sampleData), scaleProvider: ScaleProvider(),
-                              saveAction: {})
+            WeightTrackerView(dataStore: .constant(DataStore.sampleData), saveAction: {})
         }
     }
 }

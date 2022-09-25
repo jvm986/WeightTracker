@@ -15,9 +15,14 @@
 		6125685428D4940B00D47348 /* EntryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685328D4940B00D47348 /* EntryStore.swift */; };
 		6125685828D495B100D47348 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6125685728D495B100D47348 /* ErrorView.swift */; };
 		612B3B2628D5B58800C4964D /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612B3B2528D5B58800C4964D /* ErrorWrapper.swift */; };
+		616F8FEA28DEE7DB00A8558A /* WeightRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F8FE928DEE7DB00A8558A /* WeightRecorderView.swift */; };
+		616F8FEC28DEFEAE00A8558A /* AverageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F8FEB28DEFEAE00A8558A /* AverageView.swift */; };
+		616F8FEE28DF758800A8558A /* UserDataEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F8FED28DF758800A8558A /* UserDataEditView.swift */; };
 		618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */; };
 		619FC4E228D49EAA00BACE35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 619FC4E128D49EAA00BACE35 /* Assets.xcassets */; };
 		61A665A328D2FA660092C9EF /* ScaleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A665A228D2FA660092C9EF /* ScaleProvider.swift */; };
+		61AAFD4C28DC33A100E18D98 /* TrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAFD4B28DC33A100E18D98 /* TrendView.swift */; };
+		61EC1AA628E033C30008D356 /* ManualEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EC1AA528E033C30008D356 /* ManualEntryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +35,14 @@
 		6125685328D4940B00D47348 /* EntryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryStore.swift; sourceTree = "<group>"; };
 		6125685728D495B100D47348 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		612B3B2528D5B58800C4964D /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
+		616F8FE928DEE7DB00A8558A /* WeightRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightRecorderView.swift; sourceTree = "<group>"; };
+		616F8FEB28DEFEAE00A8558A /* AverageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageView.swift; sourceTree = "<group>"; };
+		616F8FED28DF758800A8558A /* UserDataEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataEditView.swift; sourceTree = "<group>"; };
 		618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntryDetailView.swift; sourceTree = "<group>"; };
 		619FC4E128D49EAA00BACE35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61A665A228D2FA660092C9EF /* ScaleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleProvider.swift; sourceTree = "<group>"; };
+		61AAFD4B28DC33A100E18D98 /* TrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendView.swift; sourceTree = "<group>"; };
+		61EC1AA528E033C30008D356 /* ManualEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,11 +76,16 @@
 			isa = PBXGroup;
 			children = (
 				619FC4E128D49EAA00BACE35 /* Assets.xcassets */,
+				616F8FEB28DEFEAE00A8558A /* AverageView.swift */,
 				6125685728D495B100D47348 /* ErrorView.swift */,
 				6125685128D4641F00D47348 /* Helpers.swift */,
+				61EC1AA528E033C30008D356 /* ManualEntryView.swift */,
 				6105830128D24084008414C7 /* Models */,
 				610582F928D2405B008414C7 /* Preview Content */,
+				61AAFD4B28DC33A100E18D98 /* TrendView.swift */,
+				616F8FED28DF758800A8558A /* UserDataEditView.swift */,
 				618BCD1D28D2412900E41EAE /* WeightEntryDetailView.swift */,
+				616F8FE928DEE7DB00A8558A /* WeightRecorderView.swift */,
 				610582F328D2405A008414C7 /* WeightTrackerApp.swift */,
 				610582F528D2405A008414C7 /* WeightTrackerView.swift */,
 			);
@@ -88,10 +103,10 @@
 		6105830128D24084008414C7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6105830228D24095008414C7 /* WeightEntry.swift */,
-				61A665A228D2FA660092C9EF /* ScaleProvider.swift */,
 				6125685328D4940B00D47348 /* EntryStore.swift */,
 				612B3B2528D5B58800C4964D /* ErrorWrapper.swift */,
+				61A665A228D2FA660092C9EF /* ScaleProvider.swift */,
+				6105830228D24095008414C7 /* WeightEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,11 +183,16 @@
 			files = (
 				610582F628D2405A008414C7 /* WeightTrackerView.swift in Sources */,
 				6125685228D4641F00D47348 /* Helpers.swift in Sources */,
+				616F8FEE28DF758800A8558A /* UserDataEditView.swift in Sources */,
+				61EC1AA628E033C30008D356 /* ManualEntryView.swift in Sources */,
+				61AAFD4C28DC33A100E18D98 /* TrendView.swift in Sources */,
 				6105830328D24095008414C7 /* WeightEntry.swift in Sources */,
 				612B3B2628D5B58800C4964D /* ErrorWrapper.swift in Sources */,
 				618BCD1E28D2412900E41EAE /* WeightEntryDetailView.swift in Sources */,
+				616F8FEC28DEFEAE00A8558A /* AverageView.swift in Sources */,
 				61A665A328D2FA660092C9EF /* ScaleProvider.swift in Sources */,
 				6125685428D4940B00D47348 /* EntryStore.swift in Sources */,
+				616F8FEA28DEE7DB00A8558A /* WeightRecorderView.swift in Sources */,
 				6125685828D495B100D47348 /* ErrorView.swift in Sources */,
 				610582F428D2405A008414C7 /* WeightTrackerApp.swift in Sources */,
 			);

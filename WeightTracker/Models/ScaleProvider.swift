@@ -33,6 +33,7 @@ class ScaleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     @Published var weightIsStable = false
     @Published var impedenceIsStable = false
     @Published var weight: Double = 0.0
+    @Published var impedence: Double = 0.0
     
     override init() {
         super.init()
@@ -90,28 +91,36 @@ class ScaleProvider: NSObject, ObservableObject, CBCentralManagerDelegate, CBPer
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let value = characteristic.value {
             weight = (Double(value[12])*256 + Double(value[11])) / 200
+            impedence = (Double(value[9]) + Double(value[10]))
             weightIsStable = false
             impedenceIsStable = false
             let control = bits(fromBytes: value[0..<2])
             if control[1][5] == 1 {
                 weightIsStable = true
             }
-            if control[1][7] == 1 {
+            if control[1][1] == 1 {
                 impedenceIsStable = true
             }
         }
     }
     
     func reset() {
-        isSwitchedOn = false
+        if central.state == .poweredOn {
+            isSwitchedOn = true
+        }
+        else {
+            isSwitchedOn = false
+        }
         isConnecting = false
         isConnected = false
         weightIsStable = false
         impedenceIsStable = false
         weight = 0.0
+        impedence = 0.0
     }
     
     func startScanning() {
+        reset()
         if isSwitchedOn {
             isConnecting = true
             central.scanForPeripherals(withServices: services, options: nil)

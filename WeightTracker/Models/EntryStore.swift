@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class EntryStore: ObservableObject {
-    @Published var entries: [WeightEntry] = []
+    @Published var dataStore: DataStore = DataStore(entries: [], userData: UserData(dob: Date(), gender: Gender.male, height: 100))
     
     private static func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
@@ -19,7 +19,7 @@ class EntryStore: ObservableObject {
             .appendingPathComponent("entries.data")
     }
     
-    static func load() async throws -> [WeightEntry] {
+    static func load() async throws -> DataStore {
         try await withCheckedThrowingContinuation { continuation in
             load { result in
                 switch result {
@@ -32,17 +32,17 @@ class EntryStore: ObservableObject {
         }
     }
     
-    static func load(completion: @escaping (Result<[WeightEntry], Error>)->Void) {
+    static func load(completion: @escaping (Result<DataStore, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
                 let fileURL = try fileURL()
                 guard let file = try? FileHandle(forReadingFrom: fileURL) else {
                     DispatchQueue.main.async {
-                        completion(.success([]))
+                        completion(.success(DataStore(entries: [], userData: UserData(dob: Date(), gender: Gender.male, height: 100))))
                     }
                     return
                 }
-                let dailyScrums = try JSONDecoder().decode([WeightEntry].self, from: file.availableData)
+                let dailyScrums = try JSONDecoder().decode(DataStore.self, from: file.availableData)
                 DispatchQueue.main.async {
                     completion(.success(dailyScrums))
                 }
@@ -55,7 +55,7 @@ class EntryStore: ObservableObject {
     }
     
     @discardableResult
-    static func save(entries: [WeightEntry]) async throws -> Int {
+    static func save(entries: DataStore) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
             save(entries: entries) { result in
                 switch result {
@@ -68,14 +68,14 @@ class EntryStore: ObservableObject {
         }
     }
     
-    static func save(entries: [WeightEntry], completion: @escaping (Result<Int, Error>)->Void) {
+    static func save(entries: DataStore, completion: @escaping (Result<Int, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
                 let data = try JSONEncoder().encode(entries)
                 let outfile = try fileURL()
                 try data.write(to: outfile)
                 DispatchQueue.main.async {
-                    completion(.success(entries.count))
+                    completion(.success(entries.entries.count))
                 }
             } catch {
                 DispatchQueue.main.async {

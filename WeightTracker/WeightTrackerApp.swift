@@ -10,16 +10,15 @@ import SwiftUI
 @main
 struct WeightTrackerApp: App {
     @StateObject private var store = EntryStore()
-    @ObservedObject var scaleProvider = ScaleProvider()
     @State private var errorWrapper: ErrorWrapper?
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                WeightTrackerView(entries: $store.entries, scaleProvider: scaleProvider) {
+                WeightTrackerView(dataStore: $store.dataStore) {
                     Task {
                         do {
-                            try await EntryStore.save(entries: store.entries)
+                            try await EntryStore.save(entries: store.dataStore)
                         } catch {
                             errorWrapper = ErrorWrapper(error: error, guidance: "Try again later.")
                         }
@@ -28,13 +27,13 @@ struct WeightTrackerApp: App {
             }
             .task {
                 do {
-                    store.entries = try await EntryStore.load()
+                    store.dataStore = try await EntryStore.load()
                 } catch {
                     errorWrapper = ErrorWrapper(error: error, guidance: "Will load sample data and continue.")
                 }
             }
             .sheet(item: $errorWrapper, onDismiss: {
-                store.entries = WeightEntry.sampleData
+                store.dataStore = DataStore.sampleData
             }) { wrapper in
                 ErrorView(errorWrapper: wrapper)
             }

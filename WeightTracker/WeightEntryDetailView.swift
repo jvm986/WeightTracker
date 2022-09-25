@@ -25,11 +25,6 @@ struct WeightEntryDetailView: View {
                 ForEach(weightEntry.entries) { entry in
                     HStack {
                         Label(entry.date.formatted(date: .omitted, time: .standard), systemImage: "clock")
-                        Spacer()
-                        Text(String(format: "%.2f kg / %.2f %%",
-                                    weightEntry.averageWeight,
-                                    dataStore.fatFromImpedenceAndWeight(impedence: weightEntry.averageImpedence, weight: weightEntry.averageWeight)
-                                   ))
                     }
                 }
                 .onDelete(perform: deleteEntry)
